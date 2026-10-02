@@ -1,0 +1,445 @@
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --pink-1: #fff0f6;
+  --pink-2: #ffd6e7;
+  --pink-3: #ffabc9;
+  --pink-4: #ff76a8;
+  --pink-5: #e64f88;
+  --deep: #7e2850;
+  --cream: #fffafc;
+  --shadow: #b83d6e;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+body {
+  background: #ffd9e8;
+  color: var(--deep);
+  font-family: "VT323", monospace;
+  image-rendering: pixelated;
+}
+
+button {
+  font: inherit;
+}
+
+#game {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 15%, #fff8fb 0 10%, transparent 30%),
+    linear-gradient(#ffe8f1 0%, #ffd0e1 60%, #ffc1d7 100%);
+}
+
+.pixel-sky {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: .55;
+  background-image:
+    radial-gradient(circle, rgba(255,255,255,.9) 0 2px, transparent 3px),
+    radial-gradient(circle, rgba(255,255,255,.65) 0 1px, transparent 2px);
+  background-size: 80px 80px, 47px 47px;
+  background-position: 10px 20px, 30px 15px;
+}
+
+.scanlines {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  pointer-events: none;
+  opacity: .08;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 3px,
+    #8d315a 3px,
+    #8d315a 4px
+  );
+}
+
+.screen {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  opacity: 0;
+  transform: scale(.97);
+  pointer-events: none;
+  transition: opacity .35s ease, transform .35s ease;
+}
+
+.screen.active {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: auto;
+}
+
+.game-card {
+  position: relative;
+  width: min(620px, 92vw);
+  text-align: center;
+  padding: 44px 35px;
+  background: rgba(255, 248, 251, .92);
+  border: 6px solid var(--deep);
+  box-shadow:
+    10px 10px 0 var(--shadow),
+    inset 0 0 0 4px #fff,
+    inset 0 0 0 8px var(--pink-2);
+}
+
+.start-card {
+  min-height: 590px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.tiny-label {
+  font-family: "Press Start 2P", monospace;
+  font-size: clamp(8px, 1.5vw, 12px);
+  letter-spacing: 1px;
+  margin-bottom: 30px;
+}
+
+h1 {
+  margin: 0;
+  font-family: "Press Start 2P", monospace;
+  line-height: 1.8;
+  font-size: clamp(19px, 4vw, 34px);
+  color: var(--deep);
+  text-shadow: 3px 3px 0 var(--pink-2);
+}
+
+h1 span {
+  color: var(--pink-5);
+}
+
+.heart-logo,
+.popup-heart {
+  color: var(--pink-4);
+  text-shadow: 4px 4px 0 #ffcadc;
+}
+
+.heart-logo {
+  margin: 25px 0 28px;
+  font-size: 72px;
+  animation: heartbeat 1.25s infinite;
+}
+
+.pixel-button {
+  position: relative;
+  border: 4px solid var(--deep);
+  background: var(--pink-3);
+  color: var(--deep);
+  padding: 18px 38px;
+  font-family: "Press Start 2P", monospace;
+  font-size: 14px;
+  cursor: pointer;
+  box-shadow: 6px 6px 0 var(--deep);
+  transition: transform .1s, box-shadow .1s, background .1s;
+}
+
+.pixel-button:hover {
+  background: #ff8eb7;
+  transform: translate(2px, 2px);
+  box-shadow: 4px 4px 0 var(--deep);
+}
+
+.pixel-button:active {
+  transform: translate(6px, 6px);
+  box-shadow: 0 0 0 var(--deep);
+}
+
+.hint {
+  margin-top: 24px;
+  font-size: 21px;
+  animation: blink 1.1s steps(2, start) infinite;
+}
+
+.screen-title {
+  font-family: "Press Start 2P", monospace;
+  font-size: clamp(16px, 3vw, 24px);
+  line-height: 1.5;
+}
+
+.subtitle {
+  margin: 14px 0 30px;
+  font-size: 25px;
+}
+
+.character-card {
+  min-height: 620px;
+}
+
+.character {
+  position: relative;
+  width: min(290px, 70vw);
+  min-height: 350px;
+  margin: 0 auto 25px;
+  border: 4px solid var(--deep);
+  background: linear-gradient(#fff, #ffe6ef);
+  cursor: pointer;
+  color: var(--deep);
+  box-shadow: 8px 8px 0 var(--shadow);
+  overflow: hidden;
+}
+
+.character:hover {
+  transform: translateY(-5px);
+  box-shadow: 8px 13px 0 var(--shadow);
+}
+
+.character-glow {
+  position: absolute;
+  width: 190px;
+  height: 190px;
+  left: 50%;
+  top: 42px;
+  transform: translateX(-50%);
+  background: #ffd3e4;
+  border-radius: 50%;
+  filter: blur(2px);
+}
+
+.character-heart {
+  position: relative;
+  z-index: 1;
+  margin-top: 55px;
+  color: var(--pink-4);
+  font-size: 115px;
+  line-height: 1;
+  text-shadow: 6px 6px 0 #e45d91;
+  animation: gentle-float 2s ease-in-out infinite;
+}
+
+.character-name {
+  position: relative;
+  z-index: 1;
+  margin-top: 24px;
+  font-family: "Parisienne", cursive;
+  font-size: 43px;
+  color: var(--deep);
+}
+
+.select-text {
+  position: relative;
+  z-index: 1;
+  margin-top: 12px;
+  font-size: 19px;
+}
+
+.back-button {
+  border: 0;
+  background: transparent;
+  color: var(--deep);
+  cursor: pointer;
+  font-size: 21px;
+}
+
+.back-button:hover {
+  text-decoration: underline;
+}
+
+.question-card {
+  min-height: 520px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.question-heart {
+  font-size: 48px;
+  color: var(--pink-4);
+  animation: heartbeat 1.3s infinite;
+  margin-bottom: 22px;
+}
+
+.question-box {
+  padding: 25px 30px;
+  border: 3px dashed var(--pink-4);
+  background: #fff4f8;
+}
+
+.question {
+  font-family: "Press Start 2P", monospace;
+  font-size: clamp(15px, 3vw, 22px);
+  line-height: 2;
+}
+
+.signature {
+  margin-top: 15px;
+  font-family: "Parisienne", cursive;
+  font-size: 36px;
+}
+
+.answer-buttons {
+  display: flex;
+  gap: 25px;
+  margin-top: 38px;
+  min-height: 65px;
+  align-items: center;
+}
+
+.yes-button {
+  min-width: 130px;
+}
+
+.no-button {
+  min-width: 130px;
+  background: #fff;
+  transition: left .18s ease, top .18s ease, transform .1s;
+}
+
+.tiny-note {
+  font-size: 19px;
+  margin-top: 25px;
+}
+
+#final-screen {
+  background:
+    radial-gradient(circle at 50% 50%, #fff7fa 0%, #ffd9e8 45%, #ffb9d2 100%);
+}
+
+#confetti {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.final-popup {
+  position: relative;
+  z-index: 3;
+  width: min(510px, 88vw);
+  padding: 42px 30px;
+  text-align: center;
+  background: #fff7fa;
+  border: 7px solid var(--deep);
+  box-shadow: 12px 12px 0 var(--shadow);
+  animation: popup-in .55s cubic-bezier(.17,.89,.32,1.3) both;
+}
+
+.popup-heart {
+  font-size: 64px;
+  animation: heartbeat 1s infinite;
+}
+
+.popup-title {
+  margin-top: 8px;
+  font-family: "Press Start 2P", monospace;
+  font-size: clamp(15px, 3vw, 23px);
+}
+
+.popup-divider {
+  margin: 18px 0;
+  color: var(--pink-4);
+  font-size: 23px;
+}
+
+.dm {
+  display: inline-block;
+  padding: 18px 28px;
+  background: var(--pink-3);
+  border: 4px solid var(--deep);
+  box-shadow: 5px 5px 0 var(--deep);
+  font-family: "Press Start 2P", monospace;
+  font-size: clamp(20px, 5vw, 34px);
+  animation: dm-pulse 1.2s ease-in-out infinite;
+}
+
+.popup-message {
+  margin-top: 22px;
+  font-family: "Parisienne", cursive;
+  font-size: 31px;
+}
+
+.floating-hearts,
+.final-hearts {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.floating-heart,
+.final-heart {
+  position: absolute;
+  color: var(--pink-4);
+  opacity: .5;
+  animation: float-up linear infinite;
+}
+
+.final-heart {
+  z-index: 2;
+  opacity: .75;
+}
+
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  10% { transform: scale(1.12); }
+  20% { transform: scale(1); }
+  30% { transform: scale(1.12); }
+  40% { transform: scale(1); }
+}
+
+@keyframes blink {
+  50% { opacity: .35; }
+}
+
+@keyframes gentle-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes popup-in {
+  0% { transform: scale(.25) rotate(-5deg); opacity: 0; }
+  70% { transform: scale(1.06) rotate(1deg); }
+  100% { transform: scale(1) rotate(0); opacity: 1; }
+}
+
+@keyframes dm-pulse {
+  50% { transform: scale(1.07); }
+}
+
+@keyframes float-up {
+  from { transform: translateY(110vh) rotate(0deg); }
+  to { transform: translateY(-20vh) rotate(360deg); }
+}
+
+@media (max-width: 600px) {
+  .game-card {
+    padding: 32px 20px;
+    box-shadow: 7px 7px 0 var(--shadow);
+  }
+
+  .start-card,
+  .character-card {
+    min-height: 0;
+  }
+
+  .character {
+    min-height: 300px;
+  }
+
+  .answer-buttons {
+    gap: 15px;
+  }
+
+  .pixel-button {
+    padding: 15px 22px;
+    font-size: 11px;
+  }
+}

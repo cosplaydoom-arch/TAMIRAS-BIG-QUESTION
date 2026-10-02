@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tamira's BIG Question?</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Parisienne&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="game">
+    <div class="scanlines"></div>
+    <div class="pixel-sky"></div>
+
+    <!-- SCREEN 1 -->
+    <section class="screen active" id="start-screen">
+      <div class="floating-hearts" aria-hidden="true"></div>
+      <div class="game-card start-card">
+        <div class="tiny-label">♡ A LITTLE GAME FOR YOU ♡</div>
+        <h1>Tamira's<br><span>BIG Question?</span></h1>
+        <div class="heart-logo">♥</div>
+        <button class="pixel-button start-button" data-next="character-screen">
+          START
+        </button>
+        <p class="hint">PRESS START TO BEGIN</p>
+      </div>
+    </section>
+
+    <!-- SCREEN 2 -->
+    <section class="screen" id="character-screen">
+      <div class="game-card character-card">
+        <div class="screen-title">SELECT CHARACTER</div>
+        <p class="subtitle">Choose your player ♡</p>
+
+        <button class="character" id="character">
+          <div class="character-glow"></div>
+          <div class="character-heart">♥</div>
+          <div class="character-name">S. Egshiglen</div>
+          <div class="select-text">♡ SELECT ♡</div>
+        </button>
+
+        <button class="back-button" data-next="start-screen">← BACK</button>
+      </div>
+    </section>
+
+    <!-- SCREEN 3 -->
+    <section class="screen" id="question-screen">
+      <div class="game-card question-card">
+        <div class="question-heart">♥</div>
+        <div class="question-box">
+          <div class="question">Would you like to<br>try us again?</div>
+          <div class="signature">— Tamir.</div>
+        </div>
+
+        <div class="answer-buttons">
+          <button class="pixel-button yes-button" id="yes">YES</button>
+          <button class="pixel-button no-button" id="no">NO</button>
+        </div>
+
+        <p class="tiny-note">♡ choose carefully ♡</p>
+      </div>
+    </section>
+
+    <!-- FINAL -->
+    <section class="screen" id="final-screen">
+      <canvas id="confetti"></canvas>
+      <div class="final-hearts" aria-hidden="true"></div>
+
+      <div class="final-popup">
+        <div class="popup-heart">♥</div>
+        <div class="popup-title">IT'S A YES!</div>
+        <div class="popup-divider">✦ ♡ ✦</div>
+        <div class="dm">DM ME</div>
+        <div class="popup-message">I'll be waiting ♡</div>
+      </div>
+    </section>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
